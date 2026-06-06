@@ -90,6 +90,7 @@ const UserForm = () => {
           Register
         </button>
       </form>
+      
     </div>
   );
 };
