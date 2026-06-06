@@ -21,7 +21,7 @@ function DashboardLayout() {
           </label>
 
           <div className="flex-1 px-4">
-            <h1 className="text-xl font-bold">Vendor Bridge Dashboard</h1>
+            <h1 className="text-xl font-bold">{user?.role} Bridge Dashboard</h1>
           </div>
 
           <div className="mr-4 text-right">
