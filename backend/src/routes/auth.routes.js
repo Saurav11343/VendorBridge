@@ -25,6 +25,6 @@ router.put(
   validate(changePasswordSchema),
   changePassword,
 );
-router.get("/me", protect, me);
+router.get("/me", protect,  me);
 
 export default router;
