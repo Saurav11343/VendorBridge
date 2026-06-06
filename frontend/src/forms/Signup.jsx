@@ -4,14 +4,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import FormInput from "../components/FromInput";
 import { signupSchema } from "../../../backend/src/validator/auth.validator";
+import { useAuthStore } from "../store/auth.store";
 
 function Signup() {
   const navigate = useNavigate();
 
+  const { signup, isSigningUp } = useAuthStore();
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -24,21 +27,17 @@ function Signup() {
   });
 
   const onSubmit = async (data) => {
-    try {
-      console.log(data);
+    const payload = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      role: data.role,
+    };
 
-      const payload = {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-        role: data.role,
-      };
+    const result = await signup(payload);
 
-      console.log(payload);
-
-      // signup api
-    } catch (error) {
-      console.log(error);
+    if (result?.success) {
+      navigate("/login");
     }
   };
 
@@ -98,7 +97,7 @@ function Signup() {
             >
               <option value="vendor">Vendor</option>
               <option value="manager">Manager</option>
-              <option value="procurement Officer">Procurement Officer</option>
+              <option value="procurement_officer">Procurement Officer</option>
             </select>
 
             {errors.role && (
@@ -108,10 +107,10 @@ function Signup() {
 
           <button
             type="submit"
-            disabled={isSubmitting}
-            className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white hover:bg-blue-700"
+            disabled={isSigningUp}
+            className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
           >
-            {isSubmitting ? "Creating Account..." : "Create Account"}
+            {isSigningUp ? "Creating Account..." : "Create Account"}
           </button>
 
           <p className="text-center text-sm text-slate-600">
