@@ -9,8 +9,24 @@ import Profile from "./pages/Profile";
 import ChangePassword from "./pages/ChangePassword";
 import VendorManagement from "./pages/VendorManagement";
 import RFQManagement from "./pages/RFQManagement";
+import { useAuthStore } from "./store/auth.store";
+import { useEffect } from "react";
 
 function App() {
+  const { checkAuth, isCheckingAuth } = useAuthStore();
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  if (isCheckingAuth) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
+
   return (
     <BrowserRouter>
       <Routes>

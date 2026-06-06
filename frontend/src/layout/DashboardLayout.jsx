@@ -1,10 +1,10 @@
-import { Outlet, Link, useNavigate } from "react-router-dom";
+import { Outlet, Link, useNavigate, Navigate } from "react-router-dom";
 import { useAuthStore } from "../store/auth.store";
 import { useState } from "react";
 import ChangePassword from "../pages/ChangePassword";
 
 function DashboardLayout() {
-  const { user, logout } = useAuthStore();
+  const { user, logout, isAuthenticated, isCheckingAuth } = useAuthStore();
 
   const navigate = useNavigate();
 
@@ -12,8 +12,11 @@ function DashboardLayout() {
     useState(false);
 
   const handleLogout = async () => {
-    await logout();
-    navigate("/");
+    const result = await logout();
+
+    if (result?.success) {
+      navigate("/");
+    }
   };
 
   return (
