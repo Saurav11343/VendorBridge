@@ -1,10 +1,10 @@
 import AddVendor from "../../components/pages/vendor/AddVendor";
+import VendorTable from "../../components/pages/vendor/VendorTable";
 
-// pages/VendorDashboard.jsx
 function VendorDashboard() {
   return (
-    <div>
-      <div className="flex justify-between items-center mb-6">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Vendor Management</h1>
 
         <button
@@ -19,7 +19,7 @@ function VendorDashboard() {
 
       <AddVendor />
 
-      {/* Vendor Table Here */}
+      <VendorTable />
     </div>
   );
 }

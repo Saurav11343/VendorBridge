@@ -1,14 +1,31 @@
-import { Outlet, Link, useNavigate } from "react-router-dom";
+import { Outlet, Link, useNavigate, Navigate } from "react-router-dom";
 import { useAuthStore } from "../store/auth.store";
 
 function DashboardLayout() {
-  const { user, logout } = useAuthStore();
+  const { user, logout, isAuthenticated, isCheckingAuth } = useAuthStore();
 
   const navigate = useNavigate();
+
   const handleLogout = async () => {
-    await logout();
-    navigate("/");
+    const result = await logout();
+
+    if (result?.success) {
+      navigate("/");
+    }
   };
+
+  if (isCheckingAuth) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -21,13 +38,15 @@ function DashboardLayout() {
           </label>
 
           <div className="flex-1 px-4">
-            <h1 className="text-xl font-bold">{user?.role} Bridge Dashboard</h1>
+            <h1 className="text-xl font-bold capitalize">
+              {user?.role} Bridge Dashboard
+            </h1>
           </div>
 
           <div className="mr-4 text-right">
             <p className="font-semibold">{user?.name}</p>
 
-            <p className="text-xs opacity-70">{user?.role}</p>
+            <p className="text-xs opacity-70 capitalize">{user?.role}</p>
           </div>
         </nav>
 
