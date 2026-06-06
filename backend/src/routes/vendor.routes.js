@@ -17,11 +17,11 @@ import { protect } from "../middleware/auth.middleware.js";
 const router = express.Router();
 
 router.post("/createVendor",validate(vendorSchema),createVendor);
-router.get("/getAllVendors", protect, getAllVendors);
-router.get("/getVendor/:id", protect, getVendorById);
-router.put("/updateVendor/:id", protect, updateVendor);
-router.patch("/updateVendorStatus/:id", protect, updateVendorStatus);
-router.delete("/deleteVendor/:id", protect, deleteVendor);
-router.get("/search", protect, searchVendors);
+router.get("/getAllVendors", validate(vendorSchema), getAllVendors);
+router.get("/getVendor/:id", validate(vendorSchema), getVendorById);
+router.put("/updateVendor/:id", validate(vendorSchema), updateVendor);
+router.patch("/updateVendorStatus/:id", validate(vendorSchema), updateVendorStatus);
+router.delete("/deleteVendor/:id", validate(vendorSchema), deleteVendor);
+router.get("/search", validate(vendorSchema), searchVendors);
 
 export default router;
