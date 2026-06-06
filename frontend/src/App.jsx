@@ -1,21 +1,28 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import Signup from './components/Signup';
-import Login from "../src/forms/Login";
-import Signup from "./forms/Signup";
-// import Signup from './components/signup';
+import Update from './components/Updatesign';
+import Login from "./components/Login";
+import Dashboard from './pages/Dashboard';
+import Navbar from './components/Navbar';
+import VendorDashboard from './pages/VendorDashboard';
+import ProcurementDashboard from './pages/ProcurementDashboard';
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          {/* <Route path="/" element={<Update />} /> */}
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+
+      <Navbar />
+
+      <Routes>
+        <Route path="/" element={<Update />} />
+        <Route path="/signup" element={<Singup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/procurement" element={<ProcurementDashboard />} />
+        <Route path="/vendor" element={<VendorDashboard />} />
+      </Routes>
+
+    </BrowserRouter>
   );
 }
 
