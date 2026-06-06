@@ -9,6 +9,7 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
+
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -17,6 +18,7 @@ export const login = async (req, res) => {
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
+
     if (!isPasswordValid) {
       return res.status(401).json({
         success: false,
@@ -33,22 +35,27 @@ export const login = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
       },
     });
   } catch (error) {
-    console.error("Error: auth Controller - login");
+    console.error("Error: auth.controller - login", error);
+
     return res.status(500).json({
       success: false,
-      message: "Internal server error",
+      message: "Internal Server Error",
     });
   }
 };
 
 export const signup = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({
+      email,
+    });
+
     if (existingUser) {
       return res.status(409).json({
         success: false,
@@ -62,14 +69,22 @@ export const signup = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      role: role || "vendor",
     });
 
     return res.status(201).json({
       success: true,
       message: "Account created successfully",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
     });
   } catch (error) {
-    console.error("Error: auth controller signup");
+    console.error("Error: auth.controller - signup", error);
+
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",

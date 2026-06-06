@@ -12,7 +12,8 @@ const rfqItemSchema = new mongoose.Schema(
     unit: String,
     specification: String,
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export default mongoose.model("RFQItem", rfqItemSchema);
+const RFQItem = mongoose.model("RFQItem", rfqItemSchema);
+export default RFQItem;
