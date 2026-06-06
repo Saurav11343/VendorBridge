@@ -31,7 +31,8 @@ const vendorSchema = new mongoose.Schema(
       ref: "User",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export default mongoose.model("Vendor", vendorSchema);
+const Vendor = mongoose.model("Vendor", vendorSchema);
+export default Vendor;

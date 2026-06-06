@@ -18,10 +18,8 @@ const rfqVendorSchema = new mongoose.Schema(
       default: "pending",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export default mongoose.model(
-  "RFQVendor",
-  rfqVendorSchema
-);
+const RFQVendor = mongoose.model("RFQVendor", rfqVendorSchema);
+export default RFQVendor;
