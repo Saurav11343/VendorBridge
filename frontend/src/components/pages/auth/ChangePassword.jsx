@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { changePasswordSchema } from "../validations/changePasswordSchema";
 
-const ChangePassword = () => {
+const ChangePassword = ({ onClose }) => {
   const [loading, setLoading] = useState(false);
 
   const {
@@ -22,7 +22,8 @@ const ChangePassword = () => {
     try {
       setLoading(true);
 
-      const token = localStorage.getItem("token");
+      const token =
+        localStorage.getItem("token");
 
       const response = await axios.put(
         "http://localhost:5000/api/auth/changePassword",
@@ -37,6 +38,8 @@ const ChangePassword = () => {
       alert(response.data.message);
 
       reset();
+
+      onClose();
     } catch (error) {
       alert(
         error?.response?.data?.message ||
@@ -48,15 +51,16 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 border rounded-lg shadow">
-      <h2 className="text-2xl font-bold mb-4">
+    <div>
+      <h2 className="text-2xl font-bold mb-6">
         Change Password
       </h2>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {/* Current Password */}
-
-        <div className="mb-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-4"
+      >
+        <div>
           <label className="block mb-1">
             Current Password
           </label>
@@ -64,19 +68,20 @@ const ChangePassword = () => {
           <input
             type="password"
             {...register("currentPassword")}
-            className="w-full border p-2 rounded"
+            className="input input-bordered w-full"
           />
 
           {errors.currentPassword && (
-            <p className="text-red-500 text-sm">
-              {errors.currentPassword.message}
+            <p className="text-error text-sm mt-1">
+              {
+                errors.currentPassword
+                  .message
+              }
             </p>
           )}
         </div>
 
-        {/* New Password */}
-
-        <div className="mb-4">
+        <div>
           <label className="block mb-1">
             New Password
           </label>
@@ -84,25 +89,35 @@ const ChangePassword = () => {
           <input
             type="password"
             {...register("newPassword")}
-            className="w-full border p-2 rounded"
+            className="input input-bordered w-full"
           />
 
           {errors.newPassword && (
-            <p className="text-red-500 text-sm">
+            <p className="text-error text-sm mt-1">
               {errors.newPassword.message}
             </p>
           )}
         </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="px-4 py-2 border rounded"
-        >
-          {loading
-            ? "Changing Password..."
-            : "Change Password"}
-        </button>
+        <div className="flex gap-2 justify-end">
+          <button
+            type="button"
+            className="btn btn-ghost"
+            onClick={onClose}
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="btn btn-primary"
+          >
+            {loading
+              ? "Changing..."
+              : "Change Password"}
+          </button>
+        </div>
       </form>
     </div>
   );
