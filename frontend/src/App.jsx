@@ -1,4 +1,4 @@
-import './App.css'
+import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Update from './components/Updatesign';
 import Login from "./components/Login";
@@ -15,7 +15,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Update />} />
-        <Route path="/signup" element={<Update />} />
+        <Route path="/signup" element={<Singup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/procurement" element={<ProcurementDashboard />} />
