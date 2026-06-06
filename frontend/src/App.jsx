@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import ChangePassword from "./pages/ChangePassword";
 import VendorManagement from "./pages/VendorManagement";
 import RFQManagement from "./pages/RFQManagement";
+import AddVendor from './components/pages/vendor/AddVendor';
 
 function App() {
   return (
