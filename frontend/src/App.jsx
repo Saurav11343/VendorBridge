@@ -1,23 +1,36 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Signup from "./forms/Signup";
+import HomePage from "./pages/HomePage";
 import Login from "./forms/Login";
-import Dashboard from "./pages/Dashboard";
-import Navbar from "./components/Navbar";
-import VendorDashboard from "./pages/VendorDashboard";
-import ProcurementDashboard from "./pages/ProcurementDashboard";
+import Signup from "./forms/Signup";
+import DashboardLayout from "./layout/DashboardLayout";
+import DashboardHome from "./pages/DashboardHome";
+import Profile from "./pages/Profile";
+import ChangePassword from "./pages/ChangePassword";
+import VendorManagement from "./pages/VendorManagement";
+import RFQManagement from "./pages/RFQManagement";
 
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
-
       <Routes>
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<HomePage />} />
+
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/procurement" element={<ProcurementDashboard />} />
-        <Route path="/vendor" element={<VendorDashboard />} />
+
+        <Route path="/signup" element={<Signup />} />
+
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route index element={<DashboardHome />} />
+
+          <Route path="profile" element={<Profile />} />
+
+          <Route path="change-password" element={<ChangePassword />} />
+
+          <Route path="vendors" element={<VendorManagement />} />
+
+          <Route path="rfq" element={<RFQManagement />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
