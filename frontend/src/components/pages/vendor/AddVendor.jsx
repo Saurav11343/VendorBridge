@@ -1,47 +1,63 @@
-import React from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import FormInput from "../../FromInput";
+import { vendorSchema } from "../../../../../backend/src/validator/vendor.validator";
+import { useVendorStore } from "../../../store/vendor.store";
 
 const AddVendor = () => {
+  const { createVendor, isCreatingVendor } = useVendorStore();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+    reset,
+  } = useForm({
+    resolver: zodResolver(vendorSchema),
+    defaultValues: {
+      companyName: "",
+      contactPerson: "",
+      email: "",
+      phone: "",
+      gstNumber: "",
+      category: "",
+      address: "",
+      rating: 0,
+      status: "active",
+    },
+  });
 
   const onSubmit = async (data) => {
-    console.log(data);
+    const result = await createVendor(data);
 
-    // API Call
-    /*
-    try {
-      const response = await fetch("http://localhost:5000/api/vendors", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+    if (!result?.success) return;
 
-      const result = await response.json();
-      console.log(result);
-    } catch (error) {
-      console.log(error);
-    }
-    */
+    reset({
+      companyName: "",
+      contactPerson: "",
+      email: "",
+      phone: "",
+      gstNumber: "",
+      category: "",
+      address: "",
+      rating: 0,
+      status: "active",
+    });
+
+    document.getElementById("add_vendor_modal").close();
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center py-10">
-      <div className="bg-white w-full max-w-3xl rounded-lg shadow p-8">
-        <h2 className="text-3xl font-bold mb-6 text-center">
-          Add Vendor
-        </h2>
+    <dialog id="add_vendor_modal" className="modal">
+      <div className="modal-box max-w-4xl">
+        <h3 className="mb-6 text-2xl font-bold">Add Vendor</h3>
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          className="grid grid-cols-1 gap-4 md:grid-cols-2"
         >
+          {/* Company Name */}
           <FormInput
             name="companyName"
             label="Company Name"
@@ -50,6 +66,7 @@ const AddVendor = () => {
             errors={errors}
           />
 
+          {/* Contact Person */}
           <FormInput
             name="contactPerson"
             label="Contact Person"
@@ -58,6 +75,7 @@ const AddVendor = () => {
             errors={errors}
           />
 
+          {/* Email */}
           <FormInput
             name="email"
             label="Email"
@@ -67,14 +85,16 @@ const AddVendor = () => {
             errors={errors}
           />
 
+          {/* Phone */}
           <FormInput
             name="phone"
-            label="Phone"
+            label="Phone Number"
             placeholder="Enter Phone Number"
             register={register}
             errors={errors}
           />
 
+          {/* GST Number */}
           <FormInput
             name="gstNumber"
             label="GST Number"
@@ -83,14 +103,17 @@ const AddVendor = () => {
             errors={errors}
           />
 
+          {/* Category */}
           <div>
-            <label className="block font-medium mb-1">
-              Category
+            <label className="label">
+              <span className="label-text font-medium">Category</span>
             </label>
 
             <select
               {...register("category")}
-              className="w-full border rounded-lg px-3 py-2"
+              className={`select select-bordered w-full ${
+                errors.category ? "select-error" : ""
+              }`}
             >
               <option value="">Select Category</option>
               <option value="Electronics">Electronics</option>
@@ -98,61 +121,111 @@ const AddVendor = () => {
               <option value="IT Services">IT Services</option>
               <option value="Stationery">Stationery</option>
             </select>
+
+            {errors.category && (
+              <p className="mt-1 text-sm text-error">
+                {errors.category.message}
+              </p>
+            )}
           </div>
 
+          {/* Status */}
           <div>
-            <label className="block font-medium mb-1">
-              Status
+            <label className="label">
+              <span className="label-text font-medium">Status</span>
             </label>
 
             <select
               {...register("status")}
-              className="w-full border rounded-lg px-3 py-2"
+              className={`select select-bordered w-full ${
+                errors.status ? "select-error" : ""
+              }`}
             >
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
               <option value="blocked">Blocked</option>
             </select>
+
+            {errors.status && (
+              <p className="mt-1 text-sm text-error">{errors.status.message}</p>
+            )}
           </div>
 
+          {/* Rating */}
           <div>
-            <label className="block font-medium mb-1">
-              Rating
+            <label className="label">
+              <span className="label-text font-medium">Rating</span>
             </label>
 
             <input
               type="number"
               min="0"
               max="5"
-              {...register("rating")}
-              className="w-full border rounded-lg px-3 py-2"
+              step="0.1"
+              {...register("rating", { valueAsNumber: true })}
+              className={`input input-bordered w-full ${
+                errors.rating ? "input-error" : ""
+              }`}
             />
+
+            {errors.rating && (
+              <p className="mt-1 text-sm text-error">{errors.rating.message}</p>
+            )}
           </div>
 
+          {/* Address */}
           <div className="md:col-span-2">
-            <label className="block font-medium mb-1">
-              Address
+            <label className="label">
+              <span className="label-text font-medium">Address</span>
             </label>
 
             <textarea
               rows="4"
               {...register("address")}
-              className="w-full border rounded-lg px-3 py-2"
               placeholder="Enter Address"
+              className={`textarea textarea-bordered w-full ${
+                errors.address ? "textarea-error" : ""
+              }`}
             />
+
+            {errors.address && (
+              <p className="mt-1 text-sm text-error">
+                {errors.address.message}
+              </p>
+            )}
           </div>
 
-          <div className="md:col-span-2">
+          {/* Buttons */}
+          <div className="md:col-span-2 flex justify-end gap-3">
+            <button
+              type="button"
+              className="btn btn-ghost"
+              onClick={() => {
+                reset();
+                document.getElementById("add_vendor_modal").close();
+              }}
+            >
+              Cancel
+            </button>
+
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700"
+              disabled={isCreatingVendor}
+              className="btn btn-primary"
             >
-              Add Vendor
+              {isCreatingVendor ? (
+                <>
+                  <span className="loading loading-spinner loading-sm"></span>
+                  Creating...
+                </>
+              ) : (
+                "Add Vendor"
+              )}
             </button>
           </div>
         </form>
       </div>
-    </div>
+    </dialog>
   );
 };
 

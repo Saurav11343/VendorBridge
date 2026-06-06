@@ -39,7 +39,7 @@ export const vendorSchema = z.object({
     .min(5, "Address must be at least 5 characters")
     .max(300, "Address cannot exceed 300 characters"),
 
-  rating: z.number().min(0).max(5).optional(),
+  rating: z.coerce.number().min(0).max(5).optional(),
 
   status: z.enum(["active", "inactive", "blocked"]).optional(),
 });
