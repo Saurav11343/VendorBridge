@@ -27,7 +27,7 @@ const UserForm = () => {
     alert("Registration Successful!");
 
     // Redirect to Login Page
-    navigate("/login");
+    navigate("/Login");
   };
 
   return (
