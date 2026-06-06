@@ -49,32 +49,37 @@ function Login() {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
+        <h2 className="mb-6 text-3xl font-bold text-center text-gray-800">
+          Login
+        </h2>
 
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Enter Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <form onSubmit={handleLogin} className="space-y-4">
+          <input
+            type="email"
+            placeholder="Enter Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
 
-        <br />
-        <br />
+          <input
+            type="password"
+            placeholder="Enter Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
 
-        <input
-          type="password"
-          placeholder="Enter Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <br />
-        <br />
-
-        <button type="submit">Login</button>
-      </form>
+          <button
+            type="submit"
+            className="w-full py-3 font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition"
+          >
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
