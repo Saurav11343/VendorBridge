@@ -1,7 +1,7 @@
 import express from "express";
+import { connectDB } from "./config/db.js";
 import { ENV } from "./utils/env.js";
 import app from "./app.js";
-import { connectDB } from "./config/db.js";
 
 const PORT = ENV.PORT;
 
